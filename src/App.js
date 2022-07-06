@@ -1,16 +1,34 @@
 import React, { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
+import DataBlock from "./components/DataBlock";
+import ListBlock from "./components/ListBlock";
 
 const datas = [
-  { id: "a1", content: "First task1" },
-  { id: "a2", content: "222Second task" },
-  { id: "a3", content: "Third task" },
-  { id: "a4", content: "Fourth task" },
-  { id: "a5", content: "Fifth task" }
+  { id: "d1", content: "모두를 위한 AI" },
+  { id: "d2", content: "Smarter alone, Smartest together" },
+  { id: "d3", content: "Make AI work for the rest of us" }
 ];
 
-const onDragEnd = (result) => {
+const funcs = [
+  { id: "f1", content: "toUpperCase" },
+  { id: "f2", content: "wordNum" },
+  { id: "f3", content: "reverse" }
+];
+
+const onDragEnd = (result, dataList, setDataList, setData) => {
   // id에따라 drop 가능하도록
+  if (!result.destination) return;
+  const { source, destination } = result;
+  console.log("p", source, destination);
+
+  if (source.droppableId !== destination.droppableId) {
+    let copiedItems = [...dataList];
+    const [removed] = copiedItems.splice(source.index, 1);
+    copiedItems = copiedItems.filter((el) => el.id !== source.index);
+
+    setDataList(copiedItems);
+    setData(removed.content);
+  }
 };
 
 function App() {
@@ -23,37 +41,19 @@ function App() {
           onDragEnd(result, dataList, setDataList, setData)
         }
       >
-        <Droppable droppableId={"1"} key={"1"}>
-          {(provided, snapshot) => {
-            console.log("!provied", provided, "1snpa", snapshot);
-            return (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                {dataList.map((item, index) => {
-                  return (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            {item.content}
-                          </div>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            );
+        <div>
+          <ListBlock id="list1" list={dataList} />
+        </div>
+        <div
+          style={{
+            margin: 20,
+            display: "flex",
+            justifyContent: "center",
+            height: "100%"
           }}
-        </Droppable>
+        >
+          <DataBlock id="dataBlock" data={data} />
+        </div>
       </DragDropContext>
     </div>
   );
