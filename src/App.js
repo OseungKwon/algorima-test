@@ -17,11 +17,12 @@ const lists = {
 };
 
 const onDragStart = (startId, setCurEl) => {
-  console.log("start", startId);
   setCurEl(startId.source.droppableId);
 };
 
-const onDragEnd = (result, items, box, setItems, setBox, setCurEl) => {
+const onDragEnd = (result, handleElement) => {
+  const { box, items, setBox, lists, setItems, setCurEl } = handleElement;
+
   // id에따라 drop 가능하도록
   if (!result.destination) return;
   const { source, destination } = result;
@@ -35,20 +36,33 @@ const onDragEnd = (result, items, box, setItems, setBox, setCurEl) => {
   ) {
     setItems({
       ...items,
-      [srcId]: items[srcId].filter((_, i) => i !== source.index)
+      [srcId]: lists[srcId].filter((_, i) => i !== source.index)
     });
     setBox({
       ...box,
-      [boxType]: items[srcId].filter((_, i) => i === source.index)[0].content
+      [boxType]: lists[srcId].filter((_, i) => i === source.index)[0].content
     });
   }
   setCurEl("");
+};
+
+const onResult = (box, setResult) => {
+  const { dataBox, funcBox } = box;
+  if (funcBox === "toUpperCase") {
+    setResult(dataBox.toUpperCase());
+    console.log(dataBox.toUpperCase());
+  } else if (funcBox === "reverse") {
+    setResult(dataBox.split("").reverse().join(""));
+  } else if (funcBox === "wordNum") {
+    setResult(dataBox.split(" ").length);
+  }
 };
 
 function App() {
   const [items, setItems] = useState(lists);
   const [box, setBox] = useState({ dataBox: "", funcBox: "" });
   const [curEl, setCurEl] = useState("");
+  const [result, setResult] = useState("");
 
   const handleElement = {
     items: items,
@@ -56,16 +70,15 @@ function App() {
     box: box,
     setBox: setBox,
     curEl: curEl,
+    setCurEl: setCurEl,
     lists: lists
   };
 
-  console.log(curEl);
+  console.log("result", result);
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
-        onDragEnd={(result) =>
-          onDragEnd(result, items, box, setItems, setBox, setCurEl)
-        }
+        onDragEnd={(result) => onDragEnd(result, handleElement)}
         onDragStart={(startId) => onDragStart(startId, setCurEl)}
       >
         <div>
@@ -84,6 +97,15 @@ function App() {
           <DataBlock id="funcBox" handleElement={handleElement} />
         </div>
       </DragDropContext>
+      <button
+        style={{ height: 50 }}
+        onClick={() => {
+          onResult(box, setResult);
+        }}
+      >
+        확인
+      </button>
+      <div>{result}</div>
     </div>
   );
 }

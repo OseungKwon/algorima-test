@@ -27,7 +27,7 @@ const ListBlock = ({ id, list }) => {
   return (
     <Droppable droppableId={id} key={id}>
       {(provided, snapshot) => {
-        console.log("!provied", provided, "1snpa", snapshot);
+        //console.log("!provied", provided, "1snpa", snapshot);
         return (
           <List
             {...provided.droppableProps}

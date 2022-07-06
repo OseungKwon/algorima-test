@@ -7,7 +7,7 @@ const Box = styled.div`
   border: 1px solid black;
   border: ${(props) => {
     if (props.isDraggingOver) {
-      console.log("props", props.curEl, props.dropBoxId);
+      //console.log("props", props.curEl, props.dropBoxId);
       if (props.curEl === "datas") {
         if (props.dropBoxId === "dataBox") return "2px dashed gray";
         else return "1px solid red";
@@ -30,8 +30,8 @@ const XBtn = styled.div`
 
 const DataBlock = ({ id, handleElement }) => {
   const { box, items, setBox, lists, setItems, curEl } = handleElement;
-  console.log("b", box);
-  const handleXBtn = (id) => {
+  //console.log("b", box);
+  const handleXBtn = () => {
     if (id === "dataBox") {
       setItems({ ...items, datas: [...lists.datas] });
     } else {
@@ -42,7 +42,7 @@ const DataBlock = ({ id, handleElement }) => {
   return (
     <>
       <XBtn
-        onClick={(id) => {
+        onClick={() => {
           handleXBtn(id);
         }}
       >
