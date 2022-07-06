@@ -3,48 +3,64 @@ import { DragDropContext } from "react-beautiful-dnd";
 import DataBlock from "./components/DataBlock";
 import ListBlock from "./components/ListBlock";
 
-const datas = [
-  { id: "d1", content: "모두를 위한 AI" },
-  { id: "d2", content: "Smarter alone, Smartest together" },
-  { id: "d3", content: "Make AI work for the rest of us" }
-];
+const lists = {
+  datas: [
+    { id: "d1", content: "모두를 위한 AI" },
+    { id: "d2", content: "Smarter alone, Smartest together" },
+    { id: "d3", content: "Make AI work for the rest of us" }
+  ],
+  funcs: [
+    { id: "f1", content: "toUpperCase" },
+    { id: "f2", content: "wordNum" },
+    { id: "f3", content: "reverse" }
+  ]
+};
 
-const funcs = [
-  { id: "f1", content: "toUpperCase" },
-  { id: "f2", content: "wordNum" },
-  { id: "f3", content: "reverse" }
-];
+const onDragStart = (startId, setCurEl) => {
+  console.log("start", startId);
+  setCurEl(startId.source.droppableId);
+};
 
-const onDragEnd = (result, dataList, setDataList, setData) => {
+const onDragEnd = (result, items, box, setItems, setBox, setCurEl) => {
   // id에따라 drop 가능하도록
   if (!result.destination) return;
   const { source, destination } = result;
-  console.log("p", source, destination);
+  const [srcId, desId] = [source.droppableId, destination.droppableId];
+  let boxType = srcId === "datas" ? "dataBox" : "funcBox";
+  //console.log(source, destination);
 
-  if (source.droppableId !== destination.droppableId) {
-    let copiedItems = [...dataList];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems = copiedItems.filter((el) => el.id !== source.index);
-
-    setDataList(copiedItems);
-    setData(removed.content);
+  if (
+    (srcId === "datas" && desId === "dataBox") ||
+    (srcId === "funcs" && desId === "funcBox")
+  ) {
+    setItems({
+      ...items,
+      [srcId]: items[srcId].filter((_, i) => i !== source.index)
+    });
+    setBox({
+      ...box,
+      [boxType]: items[srcId].filter((_, i) => i === source.index)[0].content
+    });
   }
+  setCurEl("");
 };
 
 function App() {
-  const [dataList, setDataList] = useState(datas);
-  const [funcList, setFuncList] = useState(funcs);
-  const [data, setData] = useState("");
-  const [func, setFuncs] = useState("");
+  const [items, setItems] = useState(lists);
+  const [box, setBox] = useState({ dataBox: "", funcBox: "" });
+  const [curEl, setCurEl] = useState("");
+  console.log(curEl);
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
         onDragEnd={(result) =>
-          onDragEnd(result, dataList, setDataList, setData)
+          onDragEnd(result, items, box, setItems, setBox, setCurEl)
         }
+        onDragStart={(startId) => onDragStart(startId, setCurEl)}
       >
         <div>
-          <ListBlock id="list1" list={dataList} />
+          <ListBlock id="datas" list={items.datas} />
+          <ListBlock id="funcs" list={items.funcs} />
         </div>
         <div
           style={{
@@ -55,11 +71,22 @@ function App() {
           }}
         >
           <DataBlock
-            id="dataBlock"
-            data={data}
-            setData={setData}
-            datas={datas}
-            setDataList={setDataList}
+            id="dataBox"
+            box={box}
+            items={items}
+            setBox={setBox}
+            lists={lists}
+            setItems={setItems}
+            curEl={curEl}
+          />
+          <DataBlock
+            id="funcBox"
+            box={box}
+            items={items}
+            setBox={setBox}
+            lists={lists}
+            setItems={setItems}
+            curEl={curEl}
           />
         </div>
       </DragDropContext>

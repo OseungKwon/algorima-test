@@ -4,7 +4,19 @@ import styled from "styled-components";
 
 const Box = styled.div`
   margin: 20;
-  border: 1px solid ${(props) => (props.isDraggingOver ? "red" : "black")};
+  border: 1px solid black;
+  border: ${(props) => {
+    if (props.isDraggingOver) {
+      console.log("props", props.curEl, props.dropBoxId);
+      if (props.curEl === "datas") {
+        if (props.dropBoxId === "dataBox") return "2px dashed gray";
+        else return "1px solid red";
+      } else {
+        if (props.dropBoxId === "funcBox") return "2px dashed gray";
+        else return "1px solid red";
+      }
+    }
+  }};
   padding: 4;
   width: 150;
   height: 150;
@@ -12,15 +24,19 @@ const Box = styled.div`
 
 const XBtn = styled.div`
   cursor: pointer;
-  position: absolute;
-  transform: translateX(70px) translateY(20px);
+  position: relative;
+  transform: translateX(10px) translateY(10px);
 `;
 
-const DataBlock = ({ id, data, setData, datas, setDataList }) => {
+const DataBlock = ({ id, box, items, setBox, lists, setItems, curEl }) => {
+  console.log("b", box);
   const handleXBtn = () => {
-    setDataList(datas);
-    setData("");
-    console.log(id, data);
+    if (id === "dataBox") {
+      setItems({ ...items, datas: [...lists.datas] });
+    } else {
+      setItems({ ...items, funcs: [...lists.funcs] });
+    }
+    setBox({ ...box, [id]: "" });
   };
   return (
     <>
@@ -39,9 +55,11 @@ const DataBlock = ({ id, data, setData, datas, setDataList }) => {
             <Box
               {...provided.droppableProps}
               ref={provided.innerRef}
+              curEl={curEl}
+              dropBoxId={provided.droppableProps["data-rbd-droppable-id"]}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {data}
+              {box[id]}
               {provided.placeholder}
             </Box>
           );
