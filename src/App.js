@@ -49,6 +49,16 @@ function App() {
   const [items, setItems] = useState(lists);
   const [box, setBox] = useState({ dataBox: "", funcBox: "" });
   const [curEl, setCurEl] = useState("");
+
+  const handleElement = {
+    items: items,
+    setItems: setItems,
+    box: box,
+    setBox: setBox,
+    curEl: curEl,
+    lists: lists
+  };
+
   console.log(curEl);
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
@@ -70,24 +80,8 @@ function App() {
             height: "100%"
           }}
         >
-          <DataBlock
-            id="dataBox"
-            box={box}
-            items={items}
-            setBox={setBox}
-            lists={lists}
-            setItems={setItems}
-            curEl={curEl}
-          />
-          <DataBlock
-            id="funcBox"
-            box={box}
-            items={items}
-            setBox={setBox}
-            lists={lists}
-            setItems={setItems}
-            curEl={curEl}
-          />
+          <DataBlock id="dataBox" handleElement={handleElement} />
+          <DataBlock id="funcBox" handleElement={handleElement} />
         </div>
       </DragDropContext>
     </div>

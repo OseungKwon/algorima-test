@@ -28,9 +28,10 @@ const XBtn = styled.div`
   transform: translateX(10px) translateY(10px);
 `;
 
-const DataBlock = ({ id, box, items, setBox, lists, setItems, curEl }) => {
+const DataBlock = ({ id, handleElement }) => {
+  const { box, items, setBox, lists, setItems, curEl } = handleElement;
   console.log("b", box);
-  const handleXBtn = () => {
+  const handleXBtn = (id) => {
     if (id === "dataBox") {
       setItems({ ...items, datas: [...lists.datas] });
     } else {
