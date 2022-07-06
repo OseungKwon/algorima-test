@@ -33,7 +33,9 @@ const onDragEnd = (result, dataList, setDataList, setData) => {
 
 function App() {
   const [dataList, setDataList] = useState(datas);
-  const [data, setData] = useState("hihi");
+  const [funcList, setFuncList] = useState(funcs);
+  const [data, setData] = useState("");
+  const [func, setFuncs] = useState("");
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
@@ -52,7 +54,13 @@ function App() {
             height: "100%"
           }}
         >
-          <DataBlock id="dataBlock" data={data} />
+          <DataBlock
+            id="dataBlock"
+            data={data}
+            setData={setData}
+            datas={datas}
+            setDataList={setDataList}
+          />
         </div>
       </DragDropContext>
     </div>

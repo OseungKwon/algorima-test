@@ -10,23 +10,44 @@ const Box = styled.div`
   height: 150;
 `;
 
-const DataBlock = ({ id, data }) => {
+const XBtn = styled.div`
+  cursor: pointer;
+  position: absolute;
+  transform: translateX(70px) translateY(20px);
+`;
+
+const DataBlock = ({ id, data, setData, datas, setDataList }) => {
+  const handleXBtn = () => {
+    setDataList(datas);
+    setData("");
+    console.log(id, data);
+  };
   return (
-    <Droppable droppableId={id} key={id}>
-      {(provided, snapshot) => {
-        console.log("provied", provided, "snpa", snapshot);
-        return (
-          <Box
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            {data}
-            {provided.placeholder}
-          </Box>
-        );
-      }}
-    </Droppable>
+    <>
+      <XBtn
+        onClick={(id) => {
+          handleXBtn(id);
+        }}
+      >
+        x
+      </XBtn>
+
+      <Droppable droppableId={id} key={id}>
+        {(provided, snapshot) => {
+          console.log("provied", provided, "snpa", snapshot);
+          return (
+            <Box
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {data}
+              {provided.placeholder}
+            </Box>
+          );
+        }}
+      </Droppable>
+    </>
   );
 };
 
