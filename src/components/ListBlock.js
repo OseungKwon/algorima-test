@@ -20,7 +20,6 @@ const List = styled.div`
   padding: 4;
   width: 200;
   min-height: 200;
-  border: 1px solid black;
 `;
 
 const ListBlock = ({ id, list }) => {

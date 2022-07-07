@@ -4,6 +4,16 @@ import DataBlock from "./components/DataBlock";
 import algorimaData from "./asset/algorimaData.json";
 import Sider from "./components/Sider";
 import Content from "./components/Content";
+import Header from "./components/Header";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+  margin-top: 4rem;
+  box-sizing: border-box;
+`;
 
 const onDragStart = (startId, setCurEl) => {
   setCurEl(startId.source.droppableId);
@@ -53,18 +63,21 @@ function App() {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
-      <DragDropContext
-        onDragEnd={(result) => onDragEnd(result, handleElement)}
-        onDragStart={(startId) => onDragStart(startId, setCurEl)}
-      >
-        <Sider items={items} />
-        <Content
-          result={result}
-          setResult={setResult}
-          handleElement={handleElement}
-        />
-      </DragDropContext>
+    <div>
+      <Header box={box} setResult={setResult} />
+      <Container>
+        <DragDropContext
+          onDragEnd={(result) => onDragEnd(result, handleElement)}
+          onDragStart={(startId) => onDragStart(startId, setCurEl)}
+        >
+          <Sider items={items} />
+          <Content
+            result={result}
+            setResult={setResult}
+            handleElement={handleElement}
+          />
+        </DragDropContext>
+      </Container>
     </div>
   );
 }

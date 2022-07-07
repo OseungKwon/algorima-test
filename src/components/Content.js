@@ -1,48 +1,55 @@
 import React from "react";
 import DataBlock from "./DataBlock";
+import styled from "styled-components";
 
-const strToFunc = {
-  toUpperCase: (str) => str.toUpperCase(),
-  wordNum: (str) => str.split(" ").length,
-  reverse: (str) => str.split("").reverse().join("")
-};
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-const onResult = (box, setResult) => {
-  const { dataBox, funcBox } = box;
-  setResult(strToFunc[funcBox](dataBox));
+const Box = styled.div`
+  margin: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 6px;
+  box-sizing: border-box;
+  padding: 4;
+  width: 150;
+  height: 200;
+  background: ${(props) => (props.data.length ? "#fff" : "#ccc")};
+`;
+
+const boxType = {
+  dataBox: "데이터 슬롯",
+  funcBox: "함수 슬롯",
+  resultBox: "결과 슬롯"
 };
 
 const Content = ({ result, setResult, handleElement }) => {
-  const { box } = handleElement;
-
   return (
-    <div style={{ display: "flex", flex: 10 }}>
+    <Container>
       <DataBlock
         id="dataBox"
+        boxType={boxType}
         setResult={setResult}
         handleElement={handleElement}
       />
       <DataBlock
         id="funcBox"
+        boxType={boxType}
         setResult={setResult}
         handleElement={handleElement}
       />
-      {Object.values(box).find((el) => el === "") === undefined ? (
-        <div>
-          <button
-            style={{ height: 50 }}
-            onClick={() => {
-              onResult(box, setResult);
-            }}
-          >
-            확인
-          </button>
-          <div>{result}</div>
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </div>
+      <Box data={result}>
+        <div>{result !== "" ? result : boxType.resultBox}</div>
+      </Box>
+    </Container>
   );
 };
 
