@@ -1,21 +1,6 @@
 import React from "react";
 import ListBlock from "../listBlock";
-import styled from "styled-components";
-
-const Container = styled.div`
-  padding-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 15rem;
-  height: 100%;
-`;
-const Title = styled.div`
-  display: flex;
-
-  font-size: 1rem;
-`;
+import { Container, Title } from "./style";
 
 const Sider = ({ items }) => {
   return (
