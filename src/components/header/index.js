@@ -9,7 +9,7 @@ const strToFunc = {
 
 const onResult = (box, setResult, strToFunc) => {
   const { dataBox, funcBox } = box;
-  setResult(strToFunc[funcBox](dataBox));
+  setResult(String(strToFunc[funcBox](dataBox)));
 };
 
 const Header = ({ box, setResult }) => {
