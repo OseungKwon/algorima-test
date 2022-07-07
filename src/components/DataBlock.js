@@ -4,18 +4,13 @@ import styled from "styled-components";
 
 const Box = styled.div`
   margin: 20;
-  border: 1px solid black;
+  border: 1px solid red;
   border: ${(props) => {
+    const [curEl, dropBoxId] = [props.curEl, props.dropBoxId];
     if (props.isDraggingOver) {
-      //console.log("props", props.curEl, props.dropBoxId);
-      if (props.curEl === "datas") {
-        if (props.dropBoxId === "dataBox") return "2px dashed gray";
-        else return "1px solid red";
-      } else {
-        if (props.dropBoxId === "funcBox") return "2px dashed gray";
-        else return "1px solid red";
-      }
-    }
+      if (curEl.slice(0, curEl.length - 1) === dropBoxId.split("Box").join(""))
+        return "2px dashed gray";
+    } else return "1px solid black";
   }};
   padding: 4;
   width: 150;
@@ -28,17 +23,17 @@ const XBtn = styled.div`
   transform: translateX(10px) translateY(10px);
 `;
 
-const DataBlock = ({ id, handleElement }) => {
+const DataBlock = ({ id, setResult, handleElement }) => {
   const { box, items, setBox, lists, setItems, curEl } = handleElement;
-  //console.log("b", box);
-  const handleXBtn = () => {
-    if (id === "dataBox") {
-      setItems({ ...items, datas: [...lists.datas] });
-    } else {
-      setItems({ ...items, funcs: [...lists.funcs] });
-    }
+
+  const handleXBtn = (id) => {
+    let type = `${id.split("Box").join("")}s`;
+    setItems({ ...items, [type]: [...lists[type]] });
+
+    setResult("");
     setBox({ ...box, [id]: "" });
   };
+
   return (
     <>
       <XBtn
@@ -51,7 +46,6 @@ const DataBlock = ({ id, handleElement }) => {
 
       <Droppable droppableId={id} key={id}>
         {(provided, snapshot) => {
-          console.log("provied", provided, "snpa", snapshot);
           return (
             <Box
               {...provided.droppableProps}

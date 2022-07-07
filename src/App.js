@@ -15,6 +15,11 @@ const lists = {
     { id: "f3", content: "reverse" }
   ]
 };
+const strToFunc = {
+  toUpperCase: (str) => str.toUpperCase(),
+  wordNum: (str) => str.split(" ").length,
+  reverse: (str) => str.split("").reverse().join("")
+};
 
 const onDragStart = (startId, setCurEl) => {
   setCurEl(startId.source.droppableId);
@@ -23,24 +28,24 @@ const onDragStart = (startId, setCurEl) => {
 const onDragEnd = (result, handleElement) => {
   const { box, items, setBox, lists, setItems, setCurEl } = handleElement;
 
-  // id에따라 drop 가능하도록
+  // destination없으면 end
   if (!result.destination) return;
   const { source, destination } = result;
+
+  // srcId: 드래그 요소가 있던 블록 id
+  // desId: 드래그가 끝났을 때 있던 블록 id
   const [srcId, desId] = [source.droppableId, destination.droppableId];
   let boxType = srcId === "datas" ? "dataBox" : "funcBox";
-  //console.log(source, destination);
+  let moveItem = items[srcId][source.index];
 
-  if (
-    (srcId === "datas" && desId === "dataBox") ||
-    (srcId === "funcs" && desId === "funcBox")
-  ) {
+  if (srcId.slice(0, srcId.length - 1) === desId.split("Box").join("")) {
     setItems({
       ...items,
-      [srcId]: lists[srcId].filter((_, i) => i !== source.index)
+      [srcId]: lists[srcId].filter((el) => el.id !== moveItem.id)
     });
     setBox({
       ...box,
-      [boxType]: lists[srcId].filter((_, i) => i === source.index)[0].content
+      [boxType]: moveItem.content
     });
   }
   setCurEl("");
@@ -48,19 +53,17 @@ const onDragEnd = (result, handleElement) => {
 
 const onResult = (box, setResult) => {
   const { dataBox, funcBox } = box;
-  if (funcBox === "toUpperCase") {
-    setResult(dataBox.toUpperCase());
-    console.log(dataBox.toUpperCase());
-  } else if (funcBox === "reverse") {
-    setResult(dataBox.split("").reverse().join(""));
-  } else if (funcBox === "wordNum") {
-    setResult(dataBox.split(" ").length);
-  }
+  setResult(strToFunc[funcBox](dataBox));
 };
 
 function App() {
   const [items, setItems] = useState(lists);
   const [box, setBox] = useState({ dataBox: "", funcBox: "" });
+  console.log(
+    "box",
+    box,
+    Object.values(box).find((el) => el === "")
+  );
   const [curEl, setCurEl] = useState("");
   const [result, setResult] = useState("");
 
@@ -74,7 +77,6 @@ function App() {
     lists: lists
   };
 
-  console.log("result", result);
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
@@ -85,27 +87,35 @@ function App() {
           <ListBlock id="datas" list={items.datas} />
           <ListBlock id="funcs" list={items.funcs} />
         </div>
-        <div
-          style={{
-            margin: 20,
-            display: "flex",
-            justifyContent: "center",
-            height: "100%"
-          }}
-        >
-          <DataBlock id="dataBox" handleElement={handleElement} />
-          <DataBlock id="funcBox" handleElement={handleElement} />
+        <div>
+          <DataBlock
+            id="dataBox"
+            setResult={setResult}
+            handleElement={handleElement}
+          />
+          <DataBlock
+            id="funcBox"
+            setResult={setResult}
+            handleElement={handleElement}
+          />
         </div>
       </DragDropContext>
-      <button
-        style={{ height: 50 }}
-        onClick={() => {
-          onResult(box, setResult);
-        }}
-      >
-        확인
-      </button>
-      <div>{result}</div>
+
+      {Object.values(box).find((el) => el === "") === undefined ? (
+        <div>
+          <button
+            style={{ height: 50 }}
+            onClick={() => {
+              onResult(box, setResult);
+            }}
+          >
+            확인
+          </button>
+          <div>{result}</div>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
