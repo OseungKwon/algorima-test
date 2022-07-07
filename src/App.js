@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import DataBlock from "./components/DataBlock";
+import DataBlock from "./components/dataBlock";
 import algorimaData from "./asset/algorimaData.json";
-import Sider from "./components/Sider";
-import Content from "./components/Content";
-import Header from "./components/Header";
+import Sider from "./components/sider";
+import Content from "./components/content";
+import Header from "./components/header";
 import styled from "styled-components";
 
 const Container = styled.div`

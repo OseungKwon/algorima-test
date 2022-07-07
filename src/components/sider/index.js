@@ -1,5 +1,5 @@
 import React from "react";
-import ListBlock from "./ListBlock";
+import ListBlock from "../listBlock";
 import styled from "styled-components";
 
 const Container = styled.div`
