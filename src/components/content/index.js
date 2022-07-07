@@ -1,6 +1,6 @@
 import React from "react";
 import DataBlock from "../dataBlock";
-import { Container, Box } from "./style";
+import { Container, Box, Line } from "./style";
 
 const boxType = {
   dataBox: "데이터 슬롯",
@@ -26,6 +26,7 @@ const Content = ({ result, setResult, handleElement }) => {
       <Box data={result}>
         <div>{result !== "" ? result : boxType.resultBox}</div>
       </Box>
+      <Line></Line>
     </Container>
   );
 };

@@ -22,3 +22,12 @@ export const Box = styled.div`
   height: 200;
   background: ${(props) => (props.data.length ? "#fff" : "#ccc")};
 `;
+
+export const Line = styled.div`
+  position: absolute;
+  z-index: -1;
+  width: 30rem;
+  height: 0.4rem;
+  background: #777;
+  transform: translateY(5rem);
+`;
