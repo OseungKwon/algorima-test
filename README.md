@@ -3,13 +3,13 @@
 [산업기능요원 보충역 신입] 권오승 알고리마 과제 테스트
 
 # 설치
-
 `yarn`
 
 # 시작
-
 `yarn start`
 
+# 테스트
+`yarn test`
 
 ## 기술 스택
 `react`, `webpack`, `babel`, `styled-component`, `react-beautiful-dnd`
