@@ -4,7 +4,21 @@
 ## 기술 스택
 `react`, `webpack`, `babel`, `styled-component`, `react-beautiful-dnd`
 
+## 목차
+* 요구사항 수행도
+* 과제 결과
+* Solution
+    * react-beautiful-dnd 선택 이유
+    * 블록 이동하기
+    * 데이터 블록은 데이터 슬롯에, 함수 블록은 함수 슬롯에
+    * 올바른 슬롯은 dashed로, 잘못된 슬롯은 red line으로 표시
+* Refactoring
+    * onResult 함수 개선
+    * 디렉터리 구조 개선
+    * 과도한 props 개수 개선
+    * 테스트 코드 작성
 ## 요구사항 수행도
+###  100%
 **동작**
 
 - [x]  조합하고자 하는 **데이터 블록**과 **함수 블록**을 빈 슬롯으로 drag&drop 할 수 있습니다.
@@ -18,8 +32,12 @@
 - [x]  **실행하기** 버튼은 모든 슬롯이 채워졌을 때만 활성화됩니다.
 - [x]  **X 버튼**은 슬롯이 비어 있을 때는 나타나지 않습니다.
 ---
+## 과제 결과
+![image](https://user-images.githubusercontent.com/54261116/177980529-2789bf38-c40a-41c4-bb7e-aca8c51ad68b.png)
+![image](https://user-images.githubusercontent.com/54261116/177980598-0063f735-345d-4240-890a-150580499828.png)
+
 ## Solution
-### 라이브러리
+### react-beautiful-dnd 선택 이유
 drag&drop 기능이 있는 웹 애플리케이션을 구현하기 위해 아래의 3가지 라이브러리를 고민하였습니다.
 
 ![image](https://user-images.githubusercontent.com/54261116/177706766-87ae7d6f-cd71-4810-8780-4c3cfea9bfbc.png)
@@ -106,4 +124,16 @@ const onResult = (box, setResult) => {
 컴포넌트간의 구분을 확실히 하고, 각 컴포넌트가 가지는 책임을 줄이기 위해 디렉토리를 다음과 같이 만들어 사용하였습니다.
 ![image](https://user-images.githubusercontent.com/54261116/177743854-b95f2703-ef1f-4551-ad0c-22533c2ced9c.png)
 
-### 
+### 과도한 props 개수 개선
+props는 보통 3개정도가 적당하다고 합니다.
+하지만 아래 사진과 같이 App.js에서 Content로 props를 넘겨줄 때, 9개의 props를 사용했습니다.
+
+이를 해결하기 위해 함수를 정의하고 해당 함수와 일부 데이터만을 props로 전달해주어 props의 개수를 4개로 줄일 수 있었습니다.
+![image](https://user-images.githubusercontent.com/54261116/177979658-5a1c2969-4ee4-41f2-bbe8-7f55c6157001.png)
+
+
+### 테스트 코드 작성
+각 컴포넌트의 테스트 코드를 작성했고 
+이로 인해 refacforing 작업 시, 오류가 나는지 사전에 확인할 수 있었습니다.
+![image](https://user-images.githubusercontent.com/54261116/177979218-8f232a66-e873-4d57-9d81-687f53e8784c.png)
+
