@@ -119,7 +119,7 @@ const onResult = (box, setResult) => {
   setResult(strToFunc[funcBox](dataBox));
 };
 ```
-
+(이와 유사한 개선 케이스가 많았기에 나머지는 생략했습니다)
 ### 디렉터리 구조 개선
 컴포넌트간의 구분을 확실히 하고, 각 컴포넌트가 가지는 책임을 줄이기 위해 디렉토리를 다음과 같이 만들어 사용하였습니다.
 ![image](https://user-images.githubusercontent.com/54261116/177743854-b95f2703-ef1f-4551-ad0c-22533c2ced9c.png)
