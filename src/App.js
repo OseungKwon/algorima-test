@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import DataBlock from "./components/dataBlock";
 import algorimaData from "./asset/algorimaData.json";
 import Sider from "./components/sider";
 import Content from "./components/content";
@@ -61,6 +60,13 @@ function App() {
     setCurEl: setCurEl,
     lists: lists
   };
+  const handleXBtn = (id) => {
+    let type = `${id.split("Box").join("")}s`;
+    setItems({ ...items, [type]: [...lists[type]] });
+
+    setResult("");
+    setBox({ ...box, [id]: "" });
+  };
 
   return (
     <div>
@@ -73,8 +79,9 @@ function App() {
           <Sider items={items} />
           <Content
             result={result}
-            setResult={setResult}
-            handleElement={handleElement}
+            box={box}
+            curEl={curEl}
+            handleXBtn={handleXBtn}
           />
         </DragDropContext>
       </Container>

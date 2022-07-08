@@ -12,6 +12,7 @@ const ListBlock = ({ id, list }) => {
             {...provided.droppableProps}
             ref={provided.innerRef}
             isDraggingOver={snapshot.isDraggingOver}
+            data-testid={id}
           >
             {list.map((item, index) => {
               return (

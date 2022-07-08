@@ -8,22 +8,24 @@ const boxType = {
   resultBox: "결과 슬롯"
 };
 
-const Content = ({ result, setResult, handleElement }) => {
+const Content = ({ result, box, curEl, handleXBtn }) => {
   return (
     <Container>
       <DataBlock
         id="dataBox"
+        box={box}
+        curEl={curEl}
         boxType={boxType}
-        setResult={setResult}
-        handleElement={handleElement}
+        handleXBtn={handleXBtn}
       />
       <DataBlock
         id="funcBox"
+        box={box}
+        curEl={curEl}
         boxType={boxType}
-        setResult={setResult}
-        handleElement={handleElement}
+        handleXBtn={handleXBtn}
       />
-      <Box data={result}>
+      <Box data={result} data-testid='result'>
         <div>{result !== "" ? result : boxType.resultBox}</div>
       </Box>
       <Line></Line>

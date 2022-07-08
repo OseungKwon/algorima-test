@@ -2,23 +2,15 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Container, Box, XBtn } from "./style";
 
-const DataBlock = ({ id, boxType, setResult, handleElement }) => {
-  const { box, items, setBox, lists, setItems, curEl } = handleElement;
-  const handleXBtn = () => {
-    let type = `${id.split("Box").join("")}s`;
-    setItems({ ...items, [type]: [...lists[type]] });
-
-    setResult("");
-    setBox({ ...box, [id]: "" });
-  };
-
+const DataBlock = ({ id, box, curEl, boxType, handleXBtn }) => {
   return (
     <Container>
-      {box[id] !== "" ? <XBtn onClick={handleXBtn}>×</XBtn> : <div></div>}
+      {box[id] !== "" ? <XBtn onClick={()=>{handleXBtn(id)}}>×</XBtn> : <div></div>}
       <Droppable droppableId={id} key={id}>
         {(provided, snapshot) => {
           return (
             <Box
+              data-testid={id}
               data={box[id]}
               {...provided.droppableProps}
               ref={provided.innerRef}
