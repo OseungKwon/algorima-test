@@ -91,4 +91,14 @@ describe("<DataBlock/>", () => {
     mockRender("dataBox", "", "funcs");
     expect(screen.getByTestId("dataBox")).toHaveStyle("border: 2px solid red");
   });
+
+  it("데이터 있으면 x버튼 보임", () => {
+    mockRender("dataBox", "123");
+    expect(screen.getByTestId("xBtn").textContent).toBe("×");
+  });
+
+  it("데이터 없으면 x버튼도 안보임", () => {
+    mockRender("dataBox", "");
+    expect(screen.getByTestId("xBtn").textContent).toBe("");
+  });
 });

@@ -5,7 +5,19 @@ import { Container, Box, XBtn } from "./style";
 const DataBlock = ({ id, box, curEl, boxType, handleXBtn }) => {
   return (
     <Container>
-      {box[id] !== "" ? <XBtn onClick={()=>{handleXBtn(id)}}>×</XBtn> : <div></div>}
+      <div data-testid='xBtn'>
+        {box[id] !== "" ? (
+          <XBtn
+            onClick={() => {
+              handleXBtn(id);
+            }}
+          >
+            ×
+          </XBtn>
+        ) : (
+          <div></div>
+        )}
+      </div>
       <Droppable droppableId={id} key={id}>
         {(provided, snapshot) => {
           return (
